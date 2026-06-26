@@ -141,23 +141,43 @@ USE_TZ = True
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Supabase Storage Credentials
+# Supabase S3-Compatible Storage Configuration
 SUPABASE_URL = os.environ.get('SUPABASE_URL')
 SUPABASE_KEY = os.environ.get('SUPABASE_KEY')
-SUPABASE_MEDIA_BUCKET = "media" # The name of the bucket you create in Supabase
 
+# Pull your 20-character project ID from Render env (e.g., abcdefghijklmnopqrst)
+SUPABASE_PROJECT_ID = os.environ.get('SUPABASE_PROJECT_ID') 
+
+# Configure django-storages to talk to Supabase's S3 layer
+AWS_ACCESS_KEY_ID = SUPABASE_KEY
+AWS_SECRET_ACCESS_KEY = SUPABASE_KEY
+AWS_STORAGE_BUCKET_NAME = "media"
+AWS_S3_ENDPOINT_URL = f'https://{SUPABASE_PROJECT_ID}.supabase.co/storage/v1/s3'
+
+# Fallback values to bypass standard Amazon Web Service structural defaults
+AWS_S3_REGION_NAME = 'us-east-1' 
+AWS_S3_FILE_OVERWRITE = False
+AWS_QUERYSTRING_AUTH = False
+AWS_DEFAULT_ACL = None
+
+# Forces path-style addressing over subdomain virtual formatting
+AWS_S3_EXTRA_CONFIG = {
+    'force_path_style': True,
+}
+
+# Unified storage dictionaries
 STORAGES = {
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
     "default": {
-        "BACKEND": "django_supabase_storage.SupabaseMediaStorage",
+        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
     },
 }
 
-# Media URLs point to your live cloud assets rather than local folders
-MEDIA_URL = f"{SUPABASE_URL}/storage/v1/object/public/{SUPABASE_MEDIA_BUCKET}/"
-
+# Public media folder URL routing layout
+AWS_S3_CUSTOM_DOMAIN = f'{SUPABASE_PROJECT_ID}.supabase.co/storage/v1/object/public/media'
+MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/'
 #2fa
 
 import os
