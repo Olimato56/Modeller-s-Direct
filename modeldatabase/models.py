@@ -98,7 +98,7 @@ class ModelKit(models.Model):
 @receiver(post_save, sender=ModelKit)
 def generateDescription(sender, instance, created, **kwargs):
     if created:
-        prompt = f"Write 3 short, formal sentences about the detail, parts included and special features of the {{instance.carmanufacturer}}  {{ instance.name}} by {{instance.manufacturer}}. Be formal and precise, you're writing a product description."
+        prompt = f"Write 3 short, formal sentences about the detail, parts included and special features of the {instance.carmanufacturer}  { instance.name} by {instance.manufacturer}. Be formal and precise, you're writing a product description."
 
         try: 
             response = client.models.generate_content(model="gemini-2.5-flash", contents=prompt)
