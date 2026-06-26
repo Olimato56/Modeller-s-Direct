@@ -153,13 +153,16 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 #2fa
 
-EMAIL_BACKEND = "django_gmailapi_backend.backends.GmailAPIBackend"
+EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = os.environ.get('GMAIL_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('GMAIL_PASS')
+EMAIL_USE_TLS = False
 
-GMAIL_API_USER = os.environ.get("GMAIL_USER")
-GMAIL_API_APP_PASSWORD = os.environ.get("GMAIL_PASS")
-
-DEFAULT_FROM_EMAIL = f"Modellers Direct <{GMAIL_API_USER}>"
+DEFAULT_FROM_EMAIL = f"Modellers Direct <{EMAIL_HOST_USER}>"
 OTP_EMAIL_SENDER = DEFAULT_FROM_EMAIL
+
 OTP_EMAIL_SUBJECT = "Your Modellers Direct Verification Code: {token}"
 
 OTP_EMAIL_BODY_TEMPLATE = """Hi {user},
