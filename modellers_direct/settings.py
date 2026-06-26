@@ -153,19 +153,18 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
     "default": {
-        "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        "BACKEND": "storages.backends.s3.S3Storage",
         "OPTIONS": {
-            "access_key": SUPABASE_KEY,
-            "secret_key": SUPABASE_KEY,
+            "access_key": os.environ.get('AWS_ACCESS_KEY_ID'),      # Real S3 Key ID
+            "secret_key": os.environ.get('AWS_SECRET_ACCESS_KEY'),  # Real S3 Secret Key
             "bucket_name": "media",
-            "endpoint_url": f"https://{SUPABASE_PROJECT_ID}.supabase.co/storage/v1/s3",
+            "endpoint_url": f"https://{os.environ.get('SUPABASE_PROJECT_ID')}.supabase.co/storage/v1/s3",
             "region_name": "us-east-1",
             "file_overwrite": False,
             "querystring_auth": False,
             "default_acl": None,
-            "extra_args": {
-                "force_path_style": True,
-            }
+            "addressing_style": "path",
+            "signature_version": "s3v4",
         },
     },
 }
