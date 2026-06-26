@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} {{ post.posttitle }} 
+{% endblock %}
+{% block extra_css %} 
+<link rel="stylesheet" href="{% static 'forum/style.css' %}"> 
+{% endblock %}
+{% block content %}
+
+<div class="container">
+    <div class="postspacing">
+        <h1>{{ post.posttitle }}</h1>
+        <h5>{{ post.created_at|date:"d M Y" }}</h5>
+    </div>
+
+    <h6> {{post.poster }} </h6>
+
+    <div class="tags">
+        {% for tag in post.tags.all %}
+            <a href="#" class="tag-button"> {{ tag }} </a>
+        {% endfor %}
+    </div>
+
+    <hr>
+
+    <div class="image-gallery">
+        {%for img in post.images.all %}
+            <img class="imgpost" src="{{ img.image.url }}">
+        {% endfor %}
+    </div>
+
+    <p class="post"> {{ post.posttext }}</p>
+
+    <hr>
+
+    <div class="postspacing">
+        <p><i class="fa-solid fa-eye"></i> <strong> {{ post.views }}</strong></p>
+        <p><i class="fa-solid fa-comment"></i> <strong>{{ post.replies.count }}</strong></p>
+        <button hx-post="{% url 'like_post' objid=post.id %}" hx-target="#count-{{ post.id }}" hx-swap="innerHTML" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-on::after-request="this.classList.toggle('liked')" class="like-button {% if is_liked %}liked{% endif %}">                          
+            <i class="fa-solid fa-thumbs-up"></i> 
+            <span id="count-{{ post.id }}"> {{ post.likes.count }}</span>
+        </button>
+    </div>
+</div>
+
+<div class="container">
+    <h2>Replies:</h2>
+    <div class="content-grid">
+        {% for reply in replies %}
+            <div class="card">
+                <div class="card-body">
+                    <div class="info">
+                    <div class="postspacing">
+                        <h6> {{reply.poster }} </h6>
+                        <h5>{{ reply.created_at|date:"d M Y" }}</h5>
+                    </div>
+
+                    <p>{{ reply.reply }}</p>
+
+                    <div class="replylikes">
+                        <button hx-post="{% url 'like_reply' objid=reply.id %}" hx-target="#count-{{ reply.id }}" hx-swap="innerHTML" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-on::after-request="this.classList.toggle('liked')" class="like-button {% if reply.id in liked_replies %}liked{% endif %}">                          
+                            <i class="fa-solid fa-thumbs-up"></i> 
+                            <span id="count-{{ reply.id }}"> {{ reply.likes.count }}</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+
+    <hr>
+
+    {% if user.is_authenticated %}
+        <form method="post">
+            {% csrf_token %}
+            <textarea name="message" placeholder="Reply..."></textarea>
+            <button class="submit" type="submit" name="submit_reply">Submit</button>
+        </form>
+    {% endif %}
+</div>
+
+{% endblock %}

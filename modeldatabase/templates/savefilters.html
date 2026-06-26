@@ -1,0 +1,33 @@
+{% if not exclude_search %}
+    <input type="hidden" name="q" value="{{ query|default:'' }}">
+{% endif %}
+
+{% if not exclude_sort %}
+    <input type="hidden" name="sort" value="{{ sort }}">
+{% endif %}
+
+{% if not exclude_filters %}
+    {% for manu in selected_kit_manus %}
+        <input type="hidden" name="kit_manu" value="{{ manu }}">
+    {% endfor %}
+
+    {% for car in selected_car_manus %}
+        <input type="hidden" name="car_manu" value="{{ car }}">
+    {% endfor %}
+
+    {% for country in selected_countries %}
+        <input type="hidden" name="country" value="{{ country }}">
+    {% endfor %}
+
+    {% for body in selected_bodytype %}
+        <input type="hidden" name="bodytype" value="{{ body }}">
+    {% endfor %}
+    
+    {% for rr in selected_roadrace %}
+        <input type="hidden" name="roadrace" value="{{ rr }}">
+    {% endfor %}
+
+    {% for detail in selected_detail %}
+        <input type="hidden" name="detail" value="{{ detail }}">
+    {% endfor %}
+{% endif %}

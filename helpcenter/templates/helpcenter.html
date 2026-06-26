@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Help Center 
+{% endblock %}
+{% block extra_css %} <link rel="stylesheet" href="{% static 'helpcenter/style.css' %}"> {% endblock %}
+{% block content %}
+
+<div class="content">
+    <div class="container">
+        <a href="{% url 'beginnerhelp' %}" class="helpnavlinks">Beginner Walkthrough</a>
+        <p class="helptext">A step-by-step guide for beginners to scale modelling. This includes necessary tools, how to choose the right first kit, where to start and how to improve. You are able to mark off steps so that you can track your progress and make sure that you do not miss any important tips!</p>
+        <div class="helpfooter">
+            <a href="{% url 'beginnerhelp' %}" class="open">Open Walkthrough</a>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

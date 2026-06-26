@@ -1,0 +1,149 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} {{ model.name }} 
+{% endblock %}
+{% block extra_css %} 
+<link rel="stylesheet" href="{% static 'modeldatabase/stylecar.css' %}">
+{% endblock %}
+{% block content %}
+
+<div class="container">
+    <h1> {{ model.carmanufacturer }} {{model.name}} from {{ model.manufacturer }}</h1>
+    <div class="model-info">
+        <div class="section section1">
+            <p> <br>Model Year: {{model.modelyear}} 
+                <br> Tooling Year: {{ model.yearoftool }}
+                <br> Scale: {{ model.scale }}
+            </p>
+
+            <div class="descheader">
+                <h5> <strong>Model Description (By Gemini) </strong> </h5>
+                <form  class="report" method="POST" action="">
+                    {% csrf_token %}
+                    {% if model.descriptionReport %}
+                        <button class="flagdesc" type="button" disabled>This Description Has Been Reported.</button>
+                    {% else %}
+                        <details>
+                            <summary class="flagdesc">
+                                Report Description
+                            </summary>
+                            
+                            <form method="POST" action="">
+                                {% csrf_token %}
+                                <textarea class="flagdescreason" name="reason" placeholder="Please explain why you are reporting this description."></textarea>
+                                
+                                <button class="flagdesc" type="submit" name="report"><strong>Submit Report</strong></button>
+                            </form>
+                        </details>
+                    {% endif %}
+                </form>
+            </div>
+            <p class="modeldesc">{{model.descriptionInput}}</p>
+            <hr>
+            <h3>Tips and Issues</h3>
+            {% for tip in tips %}
+                <div class="tip">
+                    <div class="tip-header">
+                        <span class="tip-user">{{ tip.user.username }}</span>
+                        <span class="tip-date">{{ tip.created_at|date:"d M Y" }}</span>
+                    </div>
+                    <p class="tip-message">{{ tip.message }}</p>
+                    <div class="tip-footer">
+                        <button hx-post="{% url 'like-tip' objid=tip.id %}" hx-target="#count-{{ tip.id }}" hx-swap="innerHTML" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-on::after-request="this.classList.toggle('liked')" class="like-button {% if tip.id in liked_tips %}liked{% endif %}">                          
+                            <i class="fa-solid fa-thumbs-up"></i> 
+                            <span id="count-{{ tip.id }}">{{ tip.likes.count }}</span>
+                        </button>
+                    </div>
+                </div>
+            {% empty %}
+                <p>No tips or issues yet.</p>
+            {% endfor %}
+
+            <hr>
+
+            <h5>Submit a Tip or Issue</h5>
+
+            {% if user.is_authenticated %}
+                <form method="post">
+                    {% csrf_token %}
+                    <textarea name="message" placeholder="Share a tip or issue..."></textarea>
+                    <button class="submit" type="submit" name="submit_tip">Submit</button>
+                </form>
+            {% endif %}
+
+            <hr>
+
+            <h3>Other Users' Models</h3>
+
+            {% for build in builds %}
+            <div class="tip">
+                    <div class="tip-header">
+                        <span class="tip-user">{{ build.user.username }}</span>
+                        <span class="tip-date">{{ build.created_at|date:"d M Y" }}</span>
+                    </div>
+
+                    <div class="image-gallery">
+                        {%for img in build.images.all %}
+                            <img class="imgmodel" src="{{ img.image.url }}">
+                        {% endfor %}
+                    </div>
+                    <p class="caption">{{ build.caption }}</p>
+
+                    <div class="tip-footer">
+                        <button hx-post="{% url 'like-build' objid=build.id %}" hx-target="#count-{{ build.id }}" hx-swap="innerHTML" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-on::after-request="this.classList.toggle('liked')" class="like-button {% if build.id in liked_builds %}liked{% endif %}">                          
+                            <i class="fa-solid fa-thumbs-up"></i> 
+                            <span id="count-{{ build.id }}">{{ build.likes.count }}</span>
+                        </button>
+                        </a>
+                    </div>
+                </div>
+            {% endfor %}
+
+            <hr>
+
+            <h5>Upload Your Build</h5>
+
+            {% if user.is_authenticated %}
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    <div class="upload-container">
+                        <span class="upload-title">📁 Choose Photos (Max 6)</span> 
+                        <input type="file" id="images_field" class="file_upload" name="images_field" multiple>
+                    </div>
+                    <textarea name="caption" placeholder="Caption your model. Feel free to include any additional information about your kit, including extra bits or paint colours."></textarea>
+                    <button class="submit" type="submit" name="upload_build">Submit</button>
+                </form>
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-danger" style="color: #721c24; background-color: #f8d7da; border: 1px solid #f5c6cb; padding: 10px; border-radius: 4px; margin-bottom: 15px;">
+                            {{ message }}
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endif %}
+
+            <hr>
+
+        </div>
+        <div class="section section2">
+            <div class="image">
+                {% if model.coverimage %}
+                    <img src="{{ model.coverimage.url }}" alt="{{ model.name }}">
+                {% else %}
+                    <img src="{% static 'user_int/images/logo.png' %}" alt="blank-image">
+                {% endif %}
+            </div>
+            <h4 class="tagheader">Tags: </h4>
+            <div class="tags">
+                <a href="#" class="tag-button"> {{ model.manufacturer.name }} </a>
+                <a href="#" class="tag-button"> {{ model.carmanufacturer.name }} </a>
+                <a href="#" class="tag-button"> {{ model.carmanufacturer.country }} </a>
+                <a href="#" class="tag-button"> {{ model.bodytype.name }} </a>
+                <a href="#" class="tag-button"> {{ model.roadrace.name }} </a>
+                <a href="#" class="tag-button"> {{ model.detail.name }} </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

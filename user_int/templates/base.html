@@ -1,0 +1,113 @@
+{% load static %} <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:ital,wght@0,100..900;1,100..900&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>
+      Modeller's Direct | 
+      {% block title %}
+      {% endblock %}
+    </title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'user_int/style.css' %}"> <!-- this means that every html inheriting from base will also use user_int style.css -->
+    {% block extra_css %}{% endblock %}
+    <script src="https://unpkg.com/htmx.org@2.0.0"></script>  
+  </head>
+  <body>
+    <header class="header">
+      <nav class="navbar">
+
+        <ul class="navbar-nav">
+          <input type="checkbox" id="menu-control" class="menu-checkbox"> <!-- will hide the burger menu on desktop-->
+          
+          <div class="burger-icon">
+            <label for="menu-control" class="burger">
+              <img src="{% static 'user_int/images/burgericon.png' %}" class="nav-burger" alt="burger">
+            </label>
+              
+            <li class="nav-item">
+              <a class="navbar-brand" href="{% url 'home' %}">
+                <img src="{% static 'user_int/images/logo.png' %}" class="nav-logo" alt="Logo">
+              </a>
+            </li>
+
+            <div>
+              <p></p>
+            </div>
+          </div>
+
+          <div class="collapsed">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'databasehome' %}">Modelling Database</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'forum' %}">Forum</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'helpcenter' %}">Modelling Help Center</a>
+            </li>
+
+            {% if not user.is_authenticated %}
+              <li class="nav-item end">
+                <a class="nav-link login-link" href="{% url 'login' %}">
+                  <span>Create Post</span>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link login-link" href="{% url 'login' %}">
+                  <span>Submit Model</span>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link login-link" href="{% url 'login' %}">
+                  <img src="{% static 'user_int/images/login_symbol.png' %}" class="nav-login_img" alt="Login">
+                  <span>Login / Register</span>
+                </a>
+              </li>
+            {% else %}
+
+              <li class="nav-item end">
+                <a class="nav-link login-link" href="{% url 'submitpost' %}">
+                  <span>Create Post</span>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link login-link" href="{% url 'submitmodel' %}">
+                  <span>Submit Model</span>
+                </a>
+              </li>
+
+              <li class="nav-item">
+                <a class="nav-link login-link" href="{% url 'userprofile' %}">
+                  <img src="{% static 'user_int/images/user.png' %}" class="nav-login_img" alt="Login">
+                  <span>{{ user.username }} ({{ unreadCount }})</span>
+                </a>
+              </li>
+
+            {% endif %}
+          </div>
+
+        </ul>
+      </nav>
+    </header>
+
+    <div class="container-fluid">{% block content %} {% endblock %}</div>
+
+    <footer class="footer">
+      <div class="footer-item">
+        <ul class="footer-links">
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+    </footer>
+  </body>
+</html>

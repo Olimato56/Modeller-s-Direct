@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Beginner Walkthrough
+{% endblock %}
+{% block extra_css %} <link rel="stylesheet" href="{% static 'helpcenter/style.css' %}"> {% endblock %}
+{% block content %}
+
+
+<div class="content">
+    {% for tip in all_beginner_tips %}
+        <div class="container">  
+            <div>
+                <h3>{{ tip.title }}</h3>
+                <p>{{ tip.content }}</p>
+                {% if tip.image %}
+                    <img src="{{ tip.image.url }}" alt="{{ tip.title }}">
+                {% endif %}
+            </div> 
+            <div class="helpfooter">
+                <button hx-post="{% url 'toggle-complete-tip' tip_id=tip.id %}" hx-target="#status-{{ tip.id }}" hx-swap="innerHTML" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-on::after-request="this.classList.toggle('completed')" class="complete-btn {% if tip.id in completed_tip_ids %}completed{% endif %}">
+                    {% if tip.id in completed_tip_ids %}
+                        <span id="status-{{ tip.id }}"><i class="fa-solid fa-check-circle"></i> Done!</span>
+                    {% else %}
+                        <span id="status-{{ tip.id }}"><i class="fa-regular fa-circle"></i>  Mark As Understood</span>
+                    {% endif %}
+                </button>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,143 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Database 
+{% endblock %}
+{% block extra_css %} 
+<link rel="stylesheet" href="{% static 'forum/style.css' %}"> <!--note that this inherits basic formatting for sort/filter menu bubbles from the forum style.css-->
+{% endblock %}
+{% block content %}
+
+<div class="content">
+    <input type="radio" class="radio-toggle" name="menu-group" id="filtertoggle">
+    <input type="radio" class="radio-toggle" name="menu-group" id="sorttoggle">
+    <input type="radio" class="radio-toggle" name="menu-group" id="closetoggle">
+
+    <!--all filter and sort buttons-->
+    <div class="filtersort">
+        <form class="search" action="{% url 'databasehome' %}" method="get">
+            {% include "savefilters.html" with exclude_search=True %}
+            <img src="{% static 'user_int/images/search.png' %}" class="search-logo" alt="Search">
+            <input type="text" name="q" id="search" placeholder="Search" value="{{ query|default:'' }}">
+        </form>
+        <label for="filtertoggle" class="button">Filters</label>
+        <label for="sorttoggle" class="button">Sort</label>
+        <label for="closetoggle" class="button">Close</label>
+    </div>
+
+    <!--filter menu including all tags-->
+    <div class="menuwrapper">
+        <div class="menu" id="filtermenu">
+            <h2>Filters</h2>
+            <form action="{% url 'databasehome' %}" method="get" id="filter-form">
+                {% include "savefilters.html" with exclude_filters=True %}
+                <h5>Kit Manufacturer</h5>
+                <div class="bubbles">
+                    {% for manufacturer in manufacturers %}
+                        <input type="checkbox" id="{{ manufacturer }}" name="kit_manu" value="{{ manufacturer }}"
+                            {% if manufacturer.name in selected_kit_manus %}checked{% endif %}>
+                        <label for="{{ manufacturer }}">{{ manufacturer }}</label>
+                    {% endfor %}
+                </div>
+
+                <h5>Car Manufacturer</h5>
+                <div class="bubbles">
+                    {% for carmanufacturer in carmanufacturers %}
+                        <input type="checkbox" id="{{ carmanufacturer }}" name="car_manu" value="{{ carmanufacturer }}"
+                            {% if carmanufacturer.name in selected_car_manus %}checked{% endif %}>
+                        <label for="{{ carmanufacturer }}">{{ carmanufacturer }}</label>
+                    {% endfor %}
+                </div>
+
+                <h5>Country</h5>
+                <div class="bubbles">
+                    {% for country in countries %}
+                        <input type="checkbox" id="{{ country }}" name="country" value="{{ country }}"
+                            {% if country.name in selected_countries %}checked{% endif %}>
+                        <label for="{{ country }}">{{ country }}</label>
+                    {% endfor %}
+                </div>
+
+                <h5>Body Type</h5>
+                <div class="bubbles">
+                    {% for bodytype in bodytypes %}
+                        <input type="checkbox" id="{{ bodytype }}" name="bodytype" value="{{ bodytype }}"
+                            {% if bodytype.name in selected_bodytype %}checked{% endif %}>
+                        <label for="{{ bodytype }}">{{ bodytype }}</label>
+                    {% endfor %}
+                </div>
+
+                <h5>Classification</h5>
+                <div class="bubbles">
+                    {% for roadrace in roadrace %}
+                        <input type="checkbox" id="{{ roadrace }}" name="roadrace" value="{{ roadrace }}"
+                            {% if roadrace.name in selected_roadrace %}checked{% endif %}>
+                        <label for="{{ roadrace }}">{{ roadrace }}</label>
+                    {% endfor %}
+                </div>
+
+                <h5>Detail</h5>
+                <div class="bubbles">
+                    {% for detail in details %}
+                        <input type="checkbox" id="{{ detail }}" name="detail" value="{{ detail }}"
+                            {% if detail.name in selected_detail %}checked{% endif %}>
+                        <label for="{{ detail }}">{{ detail }}</label>
+                    {% endfor %}
+                </div>
+                
+                <button type="submit" class="open">Apply Filters</button>
+                <button type="button" class="open" hx-get="{% url 'databasehome' %}?q={{ query }}&sort={{ sort }}" hx-target="body" hx-push-url="true">Clear Filters</button>
+            </form>
+        </div>
+
+        <!--sort menu-->
+        <div class="menu" id="sortmenu">
+            <h2>Sort</h2>
+            <form action="{% url 'databasehome' %}" method="get">
+                {% include "savefilters.html" with exclude_sort=True %}
+                <!--sort buttons-->
+                <div class="bubbles">
+                    <input type="radio" id="manufacturer" name="sort" value="manufacturer" {% if sort == 'manufacturer' %}checked{% endif %}>
+                    <label for="manufacturer">Model Manufacturer</label>
+                    
+                    <input type="radio" id="age" name="sort" value="age" {% if sort == 'age' %}checked{% endif %}>
+                    <label for="age">Tooling Age</label>
+                    
+                    <input type="radio" id="automanu" name="sort" value="automanu" {% if sort == 'automanu' %}checked{% endif %}>
+                    <label for="automanu">Vehicle Manufacturer</label>
+                </div>
+
+                <button type="submit" class="open">Apply Sort</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="container databaseinfo" id="model-list-container">
+        <h2>Models:</h2>
+        <div class="content-grid">
+            {% for model in models %}
+            <div class="card">
+                <div class="card-body">
+                    <div class="info">
+                        <a href="{% url 'car-template' model_slug=model.slug %}" class="card-title">{{ model.carmanufacturer }} {{ model.name }}</a>
+                        <p>{{ model.manufacturer}} <br> Vehicle Year: {{ model.modelyear }} <br> Tooling Year: {{ model.yearoftool }}<br> {{ model.scale }}</p>
+                        <p><i class="fa-solid fa-eye"></i> <strong> {{ model.totalviews }}</strong></p>
+                    </div>
+
+                    <div class="image">
+                        {% if model.coverimage %}
+                            <img src="{{ model.coverimage.url }}" alt="{{ model.name }}">
+                        {% else %}
+                            <img src="{% static 'user_int/images/logo.png' %}" alt="blank-image">
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% if models.count >= current_limit %}
+        <button hx-get="{% url 'databasehome' %}?limit={{ next_limit }}&{{ url_params }}" hx-target="#model-list-container" hx-select="#model-list-container" hx-swap="outerHTML" class="open">Load 10 More</button>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}

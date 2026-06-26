@@ -1,0 +1,109 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Forum 
+{% endblock %}
+{% block extra_css %} <link rel="stylesheet" href="{% static 'forum/style.css' %}"> {% endblock %}
+{% block content %}
+
+<div class="content">
+    <input type="radio" class="radio-toggle" name="menu-group" id="filtertoggle">
+    <input type="radio" class="radio-toggle" name="menu-group" id="sorttoggle">
+    <input type="radio" class="radio-toggle" name="menu-group" id="closetoggle">
+
+    <div class="filtersort">
+        <form class="search" action="{% url 'forum' %}" method="get">
+            {% include "savefiltersforum.html" with exclude_search=True %}
+            <img src="{% static 'user_int/images/search.png' %}" class="search-logo" alt="Search">
+            <input type="text" name="q" id="search" placeholder="Search" value="{{ query|default:'' }}">
+        </form>
+        <label for="filtertoggle" class="button">Filters</label>
+        <label for="sorttoggle" class="button">Sort</label>
+        <label for="closetoggle" class="button">Close</label>
+    </div>
+
+    <div class="menuwrapper">
+        <div class="menu" id="filtermenu">
+            <h2>Filters</h2>
+            <form action="{% url 'forum' %}" method="get" id="filter-form">
+                {% include "savefiltersforum.html" with exclude_filters=True %}
+                <h5>Tags:</h5>
+                <div class="bubbles">
+                    {% for tag in all_tags %}
+                        <input type="checkbox" id="{{ tag.id }}" name="tags" value="{{ tag.id }}"
+                        {% if tag.id|slugify in selected_tags %}checked{% endif %}>
+                        <label for="{{ tag.id }}">{{ tag }}</label>
+                    {% endfor %}
+                </div>
+                
+                <button type="submit" class="open">Apply Filters</button>
+                <button type="button" class="open" hx-get="{% url 'forum' %}?q={{ query }}&sort={{ sort }}" hx-target="body" hx-push-url="true">Clear Filters</button>
+            </form>
+        </div>
+
+        <div class="menu" id="sortmenu">
+            <h2>Sort</h2>
+            <form action="{% url 'forum' %}" method="get">
+                {% include "savefiltersforum.html" with exclude_sort=True %}
+                <div class="bubbles">
+                    <input type="radio" id="views" name="sort" value="views" {% if sort == 'views' %}checked{% endif %}>
+                    <label for="views">Views (highest)</label>
+                    
+                    <input type="radio" id="viewslow" name="sort" value="viewslow" {% if sort == 'viewslow' %}checked{% endif %}>
+                    <label for="viewslow">Views (lowest)</label>
+                    
+                    <input type="radio" id="likes" name="sort" value="likes" {% if sort == 'likes' %}checked{% endif %}>
+                    <label for="likes">Likes</label>
+
+                    <input type="radio" id="replies" name="sort" value="replies" {% if sort == 'replies' %}checked{% endif %}>
+                    <label for="replies">Replies</label>
+
+                    <input type="radio" id="newest" name="sort" value="newest" {% if sort == 'newest' %}checked{% endif %}>
+                    <label for="newest">Newest</label>
+
+                    <input type="radio" id="oldest" name="sort" value="oldest" {% if sort == 'oldest' %}checked{% endif %}>
+                    <label for="oldest">Oldest</label>
+                </div>
+                <button type="submit" class="open">Apply Sort</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Posts:</h2>
+            <div class="content-grid">
+                {% for post in posts %}
+                <div class="card">
+                    <div class="card-body">
+                        <div class="info">
+                            <div class="postspacing">
+                                <a href="{% url 'post-template' post_slug=post.slug %}">{{ post.posttitle }}</a>
+                                <h7>{{ post.created_at|date:"Y-m-d  H:i" }}</h7>
+                            </div>
+                            <p>{{ post.poster }}</p>
+                            <div class="image-gallery">
+                                {%for img in post.images.all %}
+                                    <img class="imgmodel" src="{{ img.image.url }}">
+                                {% endfor %}
+                            </div>
+                            <p>{{ post.posttext }}</p>
+                            <div class="postspacing">
+                                <p><i class="fa-solid fa-eye"></i> <strong> {{ post.views }}</strong></p>
+                                <p><i class="fa-solid fa-comment"></i> <strong>{{ post.replies.count }}</strong></p>
+                                <button hx-post="{% url 'like_post' objid=post.id %}" hx-target="#count-{{ post.id }}" hx-swap="innerHTML" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-on::after-request="this.classList.toggle('liked')" class="like-button {% if post.id in liked_posts %}liked{% endif %}">                          
+                                    <i class="fa-solid fa-thumbs-up"></i> 
+                                    <span id="count-{{ post.id }}"> {{ post.likes.count }}</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% if posts.count >= current_limit %}
+            <button hx-get="{% url 'databasehome' %}?limit={{ next_limit }}&{{ url_params }}" hx-target="#model-list-container" hx-select="#model-list-container" hx-swap="outerHTML" class="open">NEED TO WORK THIS OUT STILL</button>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

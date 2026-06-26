@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} Submit Model 
+{% endblock %}
+{% block extra_css %} 
+<link rel="stylesheet" href="{% static 'modeldatabase/submission.css' %}">
+<link rel="stylesheet" href="{% static 'forum/style.css' %}"> <!--note that this inherits basic formatting for sort/filter menu bubbles from the forum style.css-->
+{% endblock %}
+{% block content %}
+
+<div class="content">
+    <div class="container databaseinfo" id="model-submission-container">
+         <form method="post" class="model-form" enctype="multipart/form-data">
+            <h2>Submit a Model</h2>
+            {% csrf_token %}
+
+            {{ form.as_p}}
+            <button type="submit">Submit for Review</button>
+            <h10><br><br>*Note: Your model may not be visible immediately. We have a review system that may take a couple of days. You will receive a notification with an approval/rejection message once the review process is completed. We may modify your submission slightly to meet our criteria, as it is our aim to populate the database with as many models as possible to help our users!</h10>
+         </form>
+    </div>
+</div>
+
+{% endblock %}

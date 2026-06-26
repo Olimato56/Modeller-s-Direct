@@ -1,0 +1,54 @@
+
+
+.model-form p {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 15px;
+    padding: 8px;
+    background-color: #a8b5c2;
+    border-radius: 5px;
+}
+
+.model-form label {
+    margin-bottom: 0;
+    text-align: center;
+    padding-right: 10px;
+    color: #2b3641;
+}
+
+.model-form input[type="text"],
+.model-form input[type="number"],
+.model-form select {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 5px;
+    color: #333;
+    background-color: #e2e7ec;
+    border-color: transparent;
+    box-sizing: border-box;
+}
+
+.model-form input:hover, 
+.model-form select:hover {
+    background-color: #d1d8df;
+    transition: 0.3s;
+}
+
+.model-form textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 5px;
+    color: #333;
+    background-color: #e2e7ec;
+    border-color: transparent;
+    box-sizing: border-box;
+    field-sizing: content;   
+    resize: none; 
+    min-height: 50px;
+    margin-top: 10px;
+    width: 97%;
+}
+
+

@@ -1,0 +1,149 @@
+body {
+    background-color: #bfc5c9;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    margin: 0;
+}
+
+/* navbar styles */
+
+.navbar {
+    padding: 0;
+}
+
+.navbar-nav {
+    display: flex;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 30px;           
+    list-style: none;
+    margin: 0;           
+    padding: 3px 40px;  
+    background-color: #799ab6;
+}
+
+.nav-logo {
+    height: 80px;
+    width: auto;
+    padding: 5px;
+    vertical-align: middle;
+    border-radius: 5px;
+}
+
+.nav-logo:hover {
+    background: #9fb2c4;
+    transition: background 0.3s;
+}
+
+/* login stuff */
+
+.login-wrapper {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+}
+
+.login-background {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+    max-width: 1800px;
+    height: 80vh;
+    max-height: 1800px;
+    background-color: rgb(74, 81, 95);
+    border-radius: 10px;
+    padding-top: 1vh;
+}
+
+@media (min-width: 992px) { 
+    .login-background {
+        width: 55%;
+        max-width: 1800px;
+        height: 80vh;
+        max-height: 1800px;
+    }
+}
+
+
+.login-form {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    row-gap: 3vh;    
+    column-gap: max(10px, 3vw);
+    align-items: center;
+    width: 100%;
+    max-width: 1700px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400px;
+    color: white;
+    padding: 15%;
+}
+
+.twofa {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-form label {
+    font-weight: bold;
+    text-align: right;
+    width: max(80px, 10vw);
+}
+
+.login-form input, button {
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid #799ab6;
+    background-color: #799ab6;
+    color: white;
+}
+
+.login-form input::placeholder {
+    color: white;
+}
+
+.login-form button:hover {
+    background: #9fb2c4;
+    transition: background 0.3s;
+}
+
+.login-form .login-logo {
+    height: 10vw;
+    min-height: 130px;
+    width: auto;
+    padding: 5px;
+    vertical-align: middle;
+    align-items: center;
+    border-radius: 5px;
+    justify-self: center;
+    margin-bottom: 1vh;
+}
+
+.login-form p {
+    justify-self: center;
+}
+
+.login-form a {
+    color: #799ab6;
+}
+
+.login-form a:hover {
+    text-decoration: none; 
+    color: #9fb2c4; 
+}
+
+.alert-danger {
+    padding: 2px;
+    border-radius: 5px;
+}
+
+.alert-danger p {
+    margin-bottom: 5px;
+    line-height: 1.2;   
+}

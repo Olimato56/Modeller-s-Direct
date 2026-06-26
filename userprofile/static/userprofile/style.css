@@ -1,0 +1,45 @@
+.profilespacing {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.signout span {
+    background-color: var(--reportbg);
+    color: var(--reporttxt);
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 18px;
+}
+
+.signout span:hover {
+    background-color: var(--reporthover);
+    transition: 0.2s;
+}
+
+h5 {
+    margin-top: 15px;
+}
+
+.notificationsbutton {
+    background-color: var(--card_bubble);
+    padding: 6px 13px;
+    border-radius: 5px;
+    font-size: 32px !important;
+}
+
+.notificationsbutton:hover {
+    background-color: var(--card_bubblehover) ;
+}
+
+.profilebottom {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.profilebottom p {
+    margin-bottom: 0px;
+}

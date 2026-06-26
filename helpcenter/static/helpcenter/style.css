@@ -1,0 +1,45 @@
+.helpnavlinks {
+    font-size: 30px !important;
+}
+
+.helptext {
+    margin-top: 10px;
+    text-align: justify;
+}
+
+.helpfooter {
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    margin-bottom: -5px;
+    margin-top: 10px;
+}
+
+p {
+    margin-bottom: 15px !important;
+}
+
+.card-body {
+    padding-block: 1.2vw !important;
+}
+
+.complete-btn {
+    border-radius: 5px;
+    background-color: var(--card_bubble);
+    font-size: 20px;
+    align-self: flex-end;
+    padding: 6px 12px;
+}
+
+.completed {
+    background-color: #759e62;
+    color: black;
+}
+
+.complete-btn:focus {
+    outline: none;
+}
+
+.container {
+    margin-bottom: -20px;
+}

@@ -1,0 +1,44 @@
+{% load static %} <!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title> Login </title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'login/style.css' %}">
+  </head>
+  <body>
+    <header class="header">
+      <nav class="navbar">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="navbar-brand" href="{% url 'home' %}">
+              <img src="{% static 'user_int/images/logo.png' %}" class="nav-logo" alt="Logo">
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="login-wrapper">
+        <div class="login-background">
+            <form class="login-form" method="POST" action="{% url 'login' %}">
+              {% csrf_token %}
+              <img src="{% static 'user_int/images/logo.png' %}" class="login-logo" alt="Logo" style="grid-column: span 2;">
+              <label for="username">Username: </label>
+              <input type="text" id="username" name="username" placeholder="Enter username">
+              <label for="password">Password: </label>
+              <input type="password" id="password" name="password" placeholder="Enter password">
+              <button type="submit" style="grid-column: span 2;">Login</button>
+              <p style="grid-column: span 2;">Don't have an account? <a href="{% url 'register' %}">Register here</a></p>
+              {% if error %}
+                <div class="alert-danger" style="grid-column: span 2;">
+                  <p>{{ error }}</p>
+                </div>
+              {% endif %}
+            </form>
+        </div>
+    </div>
+
+  </body>
+</html>

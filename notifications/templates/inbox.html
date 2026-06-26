@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} {{ model.name }} 
+{% endblock %}
+{% block extra_css %} 
+<link rel="stylesheet" href="{% static 'notifications/style.css' %}"> 
+{% endblock %}
+{% block content %}
+
+<div class="container">
+    <h1>Notifications:</h1>
+    
+    {% if notifications %}
+    <ul class="notifications-panel">
+        {% for notification in notifications %}
+        <li class="{% if not notification.is_read %}unread{% endif %}">
+            
+            <div class="notification-content">
+                <p>{{ notification.message}}</p>
+                <p class="timestamp">({{ notification.timestamp|timesince }} ago)</p>
+            </div>
+
+            {% if notification.targetObject %}
+                {% if notification.category.model == 'modelkit' %}
+                    <a href="{% url 'car-template' model_slug=notification.targetObject.slug %}">View Model</a>
+                {% endif %}
+                {% if notification.category.model == 'finished build' %}
+                    <a href="{% url 'car-template' model_slug=notification.targetObject.slug %}">View Model</a>
+                {% endif %}
+                {% if notification.category.model == 'tip' %}
+                    <a href="{% url 'car-template' model_slug=notification.targetObject.slug %}">View Model</a>
+                {% endif %}
+                {% if notification.category.model == 'post' %}
+                    <a href="{% url 'post-template' post_slug=notification.targetObject.slug %}">View Post</a>
+                {% endif %}
+                {% if notification.category.model == 'reply' %}
+                    <a href="{% url 'post-template' post_slug=notification.targetObject.slug %}">View Post</a>
+                {% endif %}
+                
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+
+    {% else %}
+        <p>You have no notifications.</p>
+    {% endif %}
+
+</div>
+
+{% endblock %}

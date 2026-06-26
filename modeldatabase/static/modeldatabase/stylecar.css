@@ -1,0 +1,264 @@
+.model-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.section1 {
+    flex: 1;
+    order: 2;
+}
+
+.section2 {
+    flex: 1;
+    order: 1;
+}
+
+.image img {
+    height: 15vw !important;
+    max-height: 260px !important;
+    min-height: 120px;
+    width: auto;
+    align-items: center;
+}
+
+h1 {
+    text-align: center;
+}
+
+.image {
+    display: flex;
+    justify-content: center;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: center;
+}
+
+.tags a {
+    padding: 7.5px 15px;
+    font-size: 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    user-select: none;
+    background-color: #a8b5c2;
+    transition: 0.2s;
+    margin-bottom: 2px;
+}
+
+.tags a:hover {
+    background-color: #939faa;
+}
+
+.tagheader {
+    margin-top: 15px;
+}
+
+@media (min-width: 992px) { 
+    .model-info {
+        display: flex;
+        flex-direction: row;
+        gap: 20px;
+        margin-bottom: 30px;
+    }
+
+    .section1 {
+        flex: 3;
+        display: flex;
+        flex-direction: column; 
+        gap: 20px;
+        margin-left: 2px;
+        order: 1;
+    }
+
+    .section2 {
+        flex: 1;
+        display: flex;
+        flex-direction: column; 
+        gap: 20px;
+        order: 2;
+    }
+
+    .tags {
+        margin-top: -20px;
+        justify-content: left;
+    }
+
+    .tagheader {
+        margin-top: 0px;
+    }
+
+    .modeldesc {
+        margin-top: -15px;
+    }
+
+    h1 {
+        text-align: left;
+    }
+}
+
+hr {
+    border: none;
+    border-top: 2px solid #8895a1;
+    border-radius: 5px;
+    width: 97%;
+    margin: 10px 5px;
+}
+
+.tip {
+    background-color: #a8b5c2;
+    border-radius: 10px;
+    padding: 15px 20px;
+    margin-bottom: 10px;
+    width: 97%;
+}
+
+.tip-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.tip-user {
+    font-weight: bold;
+    color: #2C3E50;
+}
+
+.tip-date {
+    color: #2C3E50;
+    font-size: 14px;
+}
+
+.tip-message {
+    margin-bottom: 10px;
+}
+
+.tip-footer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+form textarea {
+    padding: 10px;
+    border-radius: 5px;
+    border: 2px solid #a8b5c2;
+    background-color: #a8b5c2;
+    outline: none;
+    width: 100%;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400px;
+    font-size: 16px;
+    color: #2C3E50;
+    margin-bottom: 10px;
+    resize: vertical;
+    min-height: 100px;
+    width: 97%;
+}
+
+button {
+    font-size: 18px;
+    background-color: #a8b5c2;
+    border-radius: 5px;
+    padding: 10px;
+    font-weight: bold;
+    margin: 0;
+    user-select: none;
+}
+
+button:hover {
+    background-color: #939faa;
+    transition: 0.2s;
+}
+
+.upload-container {
+    margin: 15px 0;
+    padding: 12px;
+    background-color: var(--card_bubble);
+    border-radius: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 97%;
+}
+
+.file_upload {
+    font-size: 14px;
+    color: var(--buttontext); 
+    font-family: inherit;
+}
+
+.file_upload::file-selector-button {
+    padding: 8px 16px;
+    background-color: var(--card_bubble);
+    color: var(--buttontext);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 600;
+    margin-right: 12px;
+    transition: background 0.2s ease;
+}
+
+.file_upload::file-selector-button:hover {
+    background-color: var(--card_bubblehover);
+}
+
+.imgmodel {
+    max-height: 160px !important;
+}
+
+.caption {
+    margin-top: 12px;
+}
+
+.modeldesc {
+    width: 97%;
+    text-align: justify;
+    justify-content: center;
+}
+
+.descheader {
+    display: flex;
+    flex-direction: row;
+    width: 97%;
+    justify-content: space-between;
+}
+
+.flagdesc {
+    background-color: var(--reportbg);
+    color: var(--reporttxt);
+    font-size: 12px;
+    padding: 3px 7px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    border: none;
+}
+
+.flagdescreason {
+    height: 1px;
+    font-size: 12px;
+    width: 100%;
+    margin-bottom: 1px;
+}
+
+.flagdesc:hover {
+    background-color: var(--reporthover);
+    color: var(--reporttxt);
+}
+
+.flagdesc:focus {
+    outline: none;
+}
+
+.image-gallery {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+
+
+

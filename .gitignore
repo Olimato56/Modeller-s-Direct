@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+venv/
+env/
+
+# Django secrets
+.env
+
+# Database (optional - keep this if you don't want your local DB online)
+db.sqlite3
+
+# OS files
+.DS_Store

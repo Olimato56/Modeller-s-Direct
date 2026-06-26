@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+{% block title %} {{ user.username }}
+{% endblock %}
+{% block extra_css %} <link rel="stylesheet" href="{% static 'userprofile/style.css' %}"> {% endblock %}
+{% block content %}
+
+<div class="content">
+    <div class="container">
+        <div class="profilespacing">
+            <h1><strong>{{ user.username }}</strong></h1>
+            <a class="notificationsbutton" href="{% url 'inbox' %}">
+                <span><i class="fas fa-bell"></i> {{ unreadCount }}</span>
+            </a>
+        </div>
+
+        <div class="profilebottom">
+            <div>
+                <h5><strong>Your Contributions:</strong></h5>
+                <p>Total Posts:</strong> {{ total_posts }} <br>
+                Total Replies: <strong>{{ total_replies }}</strong> <br>
+                Total Tips: <strong>{{ total_tips }}</strong> <br>
+                Total Completed Builds: <strong>{{ total_builds }}</strong> <br>
+                Total Likes Received: <strong>{{ total_likes }}</strong>
+                </p>
+            </div>
+            <a class="signout" href="{% url 'logout' %}">
+                <span>Sign Out</span>
+            </a>
+        </div>
+    </div>
+
+    <div class="container">
+        <h2>Your Posts:</h2>
+        {% for post in user_posts %}
+        <div class="card">
+            <div class="card">
+                <div class="card-body">
+                    <div class="info">
+                        <a href="{% url 'post-template' post_slug=post.slug %}" class="card-title">{{ post.posttitle }}</a>
+                        <h6>{{ post.poster }} &nbsp | &nbsp {{ post.created_at|date:"d M Y" }}</h6>
+                        <p class="posttxt">{{ post.posttext | truncatechars:100 }}</p>
+                        <p><i class="fa-solid fa-eye"></i> <strong> {{ post.views }}</strong> &nbsp | &nbsp <i class="fa-solid fa-thumbs-up"></i> <strong> {{ post.likes.count }}</p>
+                    </div>
+
+                    {% if post.images.exists %}
+                    <div class="image">
+                        <img class="imgmodel" src="{{ post.images.first.image.url }}">
+                    </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="card">
+            <div class="card-body">
+                <div class="info">
+                    <a href="{% url 'forum' %}" class="card-title">Couldn't load</a>
+                    <p>Could not load user</p>
+                    <p>Could not load post</p>
+                    <p>Views today: 0</p>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}
