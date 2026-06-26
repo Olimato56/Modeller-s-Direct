@@ -153,11 +153,20 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 #2fa
 
-EMAIL_BACKEND = "anymail.backends.resend.EmailBackend"
+EMAIL_BACKEND = "django_gmailapi_backend.backends.GmailAPIBackend"
 
-ANYMAIL = {
-    "RESEND_API_KEY": os.environ.get("RESEND_API_KEY"),
-}
+GMAIL_API_USER = os.environ.get("GMAIL_USER")
+GMAIL_API_APP_PASSWORD = os.environ.get("GMAIL_PASS")
 
+DEFAULT_FROM_EMAIL = f"Modellers Direct <{GMAIL_API_USER}>"
+OTP_EMAIL_SENDER = DEFAULT_FROM_EMAIL
+OTP_EMAIL_SUBJECT = "Your Modellers Direct Verification Code: {token}"
 
-DEFAULT_FROM_EMAIL = "onboarding@resend.dev"
+OTP_EMAIL_BODY_TEMPLATE = """Hi {user},
+
+Your security verification code for Modellers Direct is: {token}
+
+This code is valid for the next 5 minutes. If you didn't attempt to log in or register, you can safely ignore this email.
+
+Cheers,
+The Modellers Direct Team"""
