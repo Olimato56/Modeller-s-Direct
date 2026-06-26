@@ -153,4 +153,11 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 #2fa
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = "anymail.backends.resend.EmailBackend"
+
+ANYMAIL = {
+    "RESEND_API_KEY": os.environ.get("RESEND_API_KEY"),
+}
+
+
+DEFAULT_FROM_EMAIL = "onboarding@resend.dev"
