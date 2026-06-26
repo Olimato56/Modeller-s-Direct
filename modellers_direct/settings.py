@@ -147,7 +147,6 @@ SUPABASE_URL = os.environ.get('SUPABASE_URL')
 SUPABASE_KEY = os.environ.get('SUPABASE_KEY')
 SUPABASE_PROJECT_ID = os.environ.get('SUPABASE_PROJECT_ID')
 
-# Explicit Storage Layout configuration mapping keys inside the OPTIONS block
 STORAGES = {
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
@@ -155,21 +154,27 @@ STORAGES = {
     "default": {
         "BACKEND": "storages.backends.s3.S3Storage",
         "OPTIONS": {
-            "access_key": os.environ.get('AWS_ACCESS_KEY_ID'),      # Real S3 Key ID
-            "secret_key": os.environ.get('AWS_SECRET_ACCESS_KEY'),  # Real S3 Secret Key
+            "access_key": os.environ.get('AWS_ACCESS_KEY_ID'),
+            "secret_key": os.environ.get('AWS_SECRET_ACCESS_KEY'),
             "bucket_name": "media",
-            "endpoint_url": f"https://{os.environ.get('SUPABASE_PROJECT_ID')}.supabase.co/storage/v1/s3",
+            "endpoint_url": f"https://{SUPABASE_PROJECT_ID}.supabase.co/storage/v1/s3",
             "region_name": "us-east-1",
             "file_overwrite": False,
             "querystring_auth": False,
             "default_acl": None,
             "addressing_style": "path",
             "signature_version": "s3v4",
+            "object_parameters": {"ContentType": "image/jpeg"},
+            
+            # --- UPDATE THIS LINE ---
+            # Remove the 'media' bucket folder suffix from custom_domain so django-storages
+            # doesn't accidentally double-nest or append structural query tokens
+            "custom_domain": f"{SUPABASE_PROJECT_ID}.supabase.co/storage/v1/object/public/media"
         },
     },
 }
 
-# Publicly visible media domain location layout
+# This is the rock-solid public link structure Supabase expects for asset delivery
 MEDIA_URL = f"https://{SUPABASE_PROJECT_ID}.supabase.co/storage/v1/object/public/media/"
 #2fa
 
