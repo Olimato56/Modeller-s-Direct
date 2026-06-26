@@ -168,9 +168,9 @@ OTP_EMAIL_SENDER = DEFAULT_FROM_EMAIL
 
 # 3. Keep your custom 2FA text templates completely active
 OTP_EMAIL_SUBJECT = "Your Modellers Direct Verification Code: {token}"
-OTP_EMAIL_BODY_TEMPLATE = """Hi {user},
+OTP_EMAIL_BODY_TEMPLATE = """Hi,
 
-Your security verification code for Modellers Direct is: {token}
+Your security verification code for Modellers Direct is: {{token}}
 
 This code is valid for the next 5 minutes. If you didn't attempt to log in or register, you can safely ignore this email.
 
