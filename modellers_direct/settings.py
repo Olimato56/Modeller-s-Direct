@@ -153,18 +153,21 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 #2fa
 
-EMAIL_BACKEND = 'django_smtp_ssl.SSLEmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 465
-EMAIL_HOST_USER = os.environ.get('GMAIL_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('GMAIL_PASS')
-EMAIL_USE_TLS = False
+import os
 
-DEFAULT_FROM_EMAIL = f"Modellers Direct <{EMAIL_HOST_USER}>"
+# 1. Switch the mail delivery strategy to Resend's API
+EMAIL_BACKEND = "anymail.backends.resend.EmailBackend"
+
+ANYMAIL = {
+    "RESEND_API_KEY": os.environ.get("RESEND_API_KEY"),
+}
+
+# 2. Set the mandatory sandbox sender identity
+DEFAULT_FROM_EMAIL = "Modellers Direct <onboarding@resend.dev>"
 OTP_EMAIL_SENDER = DEFAULT_FROM_EMAIL
 
+# 3. Keep your custom 2FA text templates completely active
 OTP_EMAIL_SUBJECT = "Your Modellers Direct Verification Code: {token}"
-
 OTP_EMAIL_BODY_TEMPLATE = """Hi {user},
 
 Your security verification code for Modellers Direct is: {token}
@@ -172,4 +175,5 @@ Your security verification code for Modellers Direct is: {token}
 This code is valid for the next 5 minutes. If you didn't attempt to log in or register, you can safely ignore this email.
 
 Cheers,
-The Modellers Direct Team"""
+The Modellers Direct Team
+"""
