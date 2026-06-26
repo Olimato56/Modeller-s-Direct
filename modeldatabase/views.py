@@ -167,17 +167,26 @@ def car_template(request, model_slug):
     return render(request, 'car-template.html', {'model': model, 'tips': tips, 'liked_tips': liked_tips, 'builds': builds, 'liked_builds': liked_builds})
 
 
+import logging
+logger = logging.getLogger(__name__)
+
 @login_required
 def submit_model(request):
     if request.method == "POST":
         form = ModelKitSubmission(request.POST, request.FILES)
         if form.is_valid():
-            kit = form.save(commit=False)
-            kit.submitted_by = request.user
-            kit.status = 'P'
-            kit.slug = slugify(kit.name)
-            kit.save()
-            return redirect('/database')
+            try:
+                kit = form.save(commit=False)
+                kit.submitted_by = request.user
+                kit.status = 'P'
+                kit.slug = slugify(kit.name) or "model-kit"
+                kit.save()
+                return redirect('/database/')
+            except Exception as e:
+                # This will print the raw database error directly to your Render log console!
+                print(f"!!! CRITICAL FORM SAVE ERROR: {str(e)}")
+                logger.error("Form save crashed", exc_info=True)
+                raise e 
     else:
         form = ModelKitSubmission()
 
