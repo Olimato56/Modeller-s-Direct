@@ -138,46 +138,40 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
+# Static files (CSS, JavaScript, Images)
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
-# Supabase S3-Compatible Storage Configuration
+# Supabase S3-Compatible Configuration Credentials
 SUPABASE_URL = os.environ.get('SUPABASE_URL')
 SUPABASE_KEY = os.environ.get('SUPABASE_KEY')
+SUPABASE_PROJECT_ID = os.environ.get('SUPABASE_PROJECT_ID')
 
-# Pull your 20-character project ID from Render env (e.g., abcdefghijklmnopqrst)
-SUPABASE_PROJECT_ID = os.environ.get('SUPABASE_PROJECT_ID') 
-
-# Configure django-storages to talk to Supabase's S3 layer
-AWS_ACCESS_KEY_ID = SUPABASE_KEY
-AWS_SECRET_ACCESS_KEY = SUPABASE_KEY
-AWS_STORAGE_BUCKET_NAME = "media"
-AWS_S3_ENDPOINT_URL = f'https://{SUPABASE_PROJECT_ID}.supabase.co/storage/v1/s3'
-
-# Fallback values to bypass standard Amazon Web Service structural defaults
-AWS_S3_REGION_NAME = 'us-east-1' 
-AWS_S3_FILE_OVERWRITE = False
-AWS_QUERYSTRING_AUTH = False
-AWS_DEFAULT_ACL = None
-
-# Forces path-style addressing over subdomain virtual formatting
-AWS_S3_EXTRA_CONFIG = {
-    'force_path_style': True,
-}
-
-# Unified storage dictionaries
+# Explicit Storage Layout configuration mapping keys inside the OPTIONS block
 STORAGES = {
     "staticfiles": {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
     "default": {
         "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        "OPTIONS": {
+            "access_key": SUPABASE_KEY,
+            "secret_key": SUPABASE_KEY,
+            "bucket_name": "media",
+            "endpoint_url": f"https://{SUPABASE_PROJECT_ID}.supabase.co/storage/v1/s3",
+            "region_name": "us-east-1",
+            "file_overwrite": False,
+            "querystring_auth": False,
+            "default_acl": None,
+            "extra_args": {
+                "force_path_style": True,
+            }
+        },
     },
 }
 
-# Public media folder URL routing layout
-AWS_S3_CUSTOM_DOMAIN = f'{SUPABASE_PROJECT_ID}.supabase.co/storage/v1/object/public/media'
-MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/'
+# Publicly visible media domain location layout
+MEDIA_URL = f"https://{SUPABASE_PROJECT_ID}.supabase.co/storage/v1/object/public/media/"
 #2fa
 
 import os
