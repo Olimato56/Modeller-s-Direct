@@ -29,7 +29,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-%mazi!1pdjq$t2
 
 DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.render.com']
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.render.com', 'modeller-s-direct.onrender.com']
 
 # Application definition
 
