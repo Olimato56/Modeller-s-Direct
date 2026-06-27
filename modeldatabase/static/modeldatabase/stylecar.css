@@ -206,7 +206,8 @@ button:hover {
 }
 
 .imgmodel {
-    max-height: 160px !important;
+    max-height: 220px !important;
+    height: 30vw !important
 }
 
 .caption {
@@ -226,6 +227,12 @@ button:hover {
     justify-content: space-between;
 }
 
+@media (max-width: 992px) {
+    .descheader {
+        margin-top: 10px;
+    }
+}
+
 .flagdesc {
     background-color: var(--reportbg);
     color: var(--reporttxt);
@@ -234,6 +241,7 @@ button:hover {
     margin-bottom: 5px;
     border-radius: 5px;
     border: none;
+    text-align: center;
 }
 
 .flagdescreason {
@@ -257,6 +265,13 @@ button:hover {
     flex-direction: row;
     flex-wrap: wrap;
     gap: 8px;
+}
+
+@media (max-width: 992px) {
+    .image img {
+        height: 40vw !important;
+        max-height: 300px !important;
+    }
 }
 
 

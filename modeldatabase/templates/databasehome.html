@@ -118,9 +118,11 @@
             <div class="card">
                 <div class="card-body">
                     <div class="info">
-                        <a href="{% url 'car-template' model_slug=model.slug %}" class="card-title">{{ model.carmanufacturer }} {{ model.name }}</a>
-                        <p>{{ model.manufacturer}} <br> Vehicle Year: {{ model.modelyear }} <br> Tooling Year: {{ model.yearoftool }}<br> {{ model.scale }}</p>
-                        <p><i class="fa-solid fa-eye"></i> <strong> {{ model.totalviews }}</strong></p>
+                        <a href="{% url 'car-template' model_slug=model.slug %}" class="card-title">{{ model.carmanufacturer }} {{model.name }}</a>
+                        <p class="manu">{{ model.manufacturer}} | {{ model.scale }}</p>
+                        <p class="yr">Vehicle Year: {{ model.modelyear }}</p>
+                        <p class="tool">Tooling Year: {{ model.yearoftool }}</p>
+                        <p class="pcviews"><i class="fa-solid fa-eye"></i> <strong> {{ model.totalviews }}</strong></p>
                     </div>
 
                     <div class="image">
@@ -130,6 +132,8 @@
                             <img src="{% static 'user_int/images/logo.png' %}" alt="blank-image">
                         {% endif %}
                     </div>
+                    
+                    <p class="mobileviews"><i class="fa-solid fa-eye"></i> <strong> {{ model.totalviews }}</strong></p>
                 </div>
             </div>
             {% endfor %}

@@ -69,6 +69,8 @@
                     <textarea name="message" placeholder="Share a tip or issue..."></textarea>
                     <button class="submit" type="submit" name="submit_tip">Submit</button>
                 </form>
+            {% else %}
+                <p>Log in to submit a tip or issue.</p>
             {% endif %}
 
             <hr>
@@ -120,6 +122,8 @@
                         </div>
                     {% endfor %}
                 {% endif %}
+            {% else %}
+                <p>Log in to submit your completed build.</p>
             {% endif %}
 
             <hr>

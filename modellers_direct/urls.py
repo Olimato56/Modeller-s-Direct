@@ -29,4 +29,5 @@ urlpatterns = [
     path('notifications/', include('notifications.urls')),
     path('profile/', include('userprofile.urls')),
     path('helpcenter/', include('helpcenter.urls')),
+    path('footers/', include('footers.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

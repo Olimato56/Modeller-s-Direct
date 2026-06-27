@@ -15,26 +15,21 @@ from pathlib import Path
 import os
 from dotenv import load_dotenv
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 load_dotenv(os.path.join(BASE_DIR, '.env'))
 
-# Assign to a setting
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'django-insecure-%mazi!1pdjq$t2w&3s5yo0^4=ecapk-=qw9*8d*v!dyl_udmdy')
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = ['*']
-
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.render.com']
 
 # Application definition
 
@@ -52,6 +47,7 @@ INSTALLED_APPS = [
     'notifications',
     'userprofile',
     'helpcenter',
+    'footers',
     'django_otp',
     'django_otp.plugins.otp_static',
     'django_otp.plugins.otp_totp',
@@ -165,33 +161,25 @@ STORAGES = {
             "addressing_style": "path",
             "signature_version": "s3v4",
             "object_parameters": {"ContentType": "image/jpeg"},
-            
-            # --- UPDATE THIS LINE ---
-            # Remove the 'media' bucket folder suffix from custom_domain so django-storages
-            # doesn't accidentally double-nest or append structural query tokens
             "custom_domain": f"{SUPABASE_PROJECT_ID}.supabase.co/storage/v1/object/public/media"
         },
     },
 }
 
-# This is the rock-solid public link structure Supabase expects for asset delivery
 MEDIA_URL = f"https://{SUPABASE_PROJECT_ID}.supabase.co/storage/v1/object/public/media/"
 #2fa
 
 import os
 
-# 1. Switch the mail delivery strategy to Resend's API
 EMAIL_BACKEND = "anymail.backends.resend.EmailBackend"
 
 ANYMAIL = {
     "RESEND_API_KEY": os.environ.get("RESEND_API_KEY"),
 }
 
-# 2. Set the mandatory sandbox sender identity
 DEFAULT_FROM_EMAIL = "Modellers Direct <onboarding@resend.dev>"
 OTP_EMAIL_SENDER = DEFAULT_FROM_EMAIL
 
-# 3. Keep your custom 2FA text templates completely active
 OTP_EMAIL_SUBJECT = "Your Modellers Direct Verification Code: {token}"
 OTP_EMAIL_BODY_TEMPLATE = """Hi,
 

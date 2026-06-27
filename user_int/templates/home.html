@@ -14,8 +14,10 @@
                 <div class="card-body">
                     <div class="info">
                         <a href="{% url 'car-template' model_slug=model.slug %}" class="card-title">{{ model.carmanufacturer }} {{model.name }}</a>
-                        <p>{{ model.manufacturer}} <br> Vehicle Year: {{ model.modelyear }} <br> Tooling Year: {{ model.yearoftool }}<br> {{ model.scale }}</p>
-                        <p><i class="fa-solid fa-eye"></i> <strong> {{ model.totalviews }}</strong></p>
+                        <p class="manu">{{ model.manufacturer}} | {{ model.scale }}</p>
+                        <p class="yr">Vehicle Year: {{ model.modelyear }}</p>
+                        <p class="tool">Tooling Year: {{ model.yearoftool }}</p>
+                        <p class="pcviews"><i class="fa-solid fa-eye"></i> <strong> {{ model.totalviews }}</strong></p>
                     </div>
 
                     <div class="image">
@@ -25,6 +27,8 @@
                             <img src="{% static 'user_int/images/logo.png' %}" alt="blank-image">
                         {% endif %}
                     </div>
+
+                    <p class="mobileviews"><i class="fa-solid fa-eye"></i> <strong> {{ model.totalviews }}</strong></p>
                 </div>
             </div>
             {% empty %}
@@ -55,7 +59,7 @@
                 <div class="info">
                     <a href="{% url 'post-template' post_slug=post.slug %}" class="card-title">{{ post.posttitle }}</a>
                     <h6>{{ post.poster }} &nbsp | &nbsp {{ post.created_at|date:"d M Y" }}</h6>
-                    <p class="posttxt">{{ post.posttext | truncatechars:100 }}</p>
+                    <p class="posttxt">{{ post.posttext}}</p>
                     <p><i class="fa-solid fa-eye"></i> <strong> {{ post.views }}</strong> &nbsp | &nbsp <i class="fa-solid fa-thumbs-up"></i> <strong> {{ post.likes.count }}</p>
                 </div>
 
