@@ -67,6 +67,12 @@ def databasehome(request):
         all_models = all_models.order_by('carmanufacturer__name', 'name')
     elif sort_option == 'age':
         all_models = all_models.order_by('-yearoftool')
+    elif sort_option == 'modelyearnew':
+        all_models = all_models.order_by('-modelyear')
+    elif sort_option == 'modelyearold':
+        all_models = all_models.order_by('modelyear')
+    elif sort_option == 'views':
+        all_models = all_models.order_by('-views')
     else:
         all_models = all_models.order_by('carmanufacturer__name')
 

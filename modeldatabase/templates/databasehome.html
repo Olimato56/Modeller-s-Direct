@@ -99,11 +99,21 @@
                     <input type="radio" id="manufacturer" name="sort" value="manufacturer" {% if sort == 'manufacturer' %}checked{% endif %}>
                     <label for="manufacturer">Model Manufacturer</label>
                     
-                    <input type="radio" id="age" name="sort" value="age" {% if sort == 'age' %}checked{% endif %}>
-                    <label for="age">Tooling Age</label>
-                    
                     <input type="radio" id="automanu" name="sort" value="automanu" {% if sort == 'automanu' %}checked{% endif %}>
                     <label for="automanu">Vehicle Manufacturer</label>
+
+                    <input type="radio" id="modelyearnew" name="sort" value="modelyearnew" {% if sort == 'modelyearnew' %}checked{% endif %}>
+                    <label for="modelyearnew">Vehicle Year (newest)</label>
+
+                    <input type="radio" id="modelyearold" name="sort" value="modelyearold" {% if sort == 'modelyearold' %}checked{% endif %}>
+                    <label for="modelyearold">Vehicle Year (oldest)</label>
+
+                    <input type="radio" id="age" name="sort" value="age" {% if sort == 'age' %}checked{% endif %}>
+                    <label for="age">Tooling Age</label>
+
+                    <input type="radio" id="views" name="sort" value="views" {% if sort == 'views' %}checked{% endif %}>
+                    <label for="views">Views</label>
+
                 </div>
 
                 <button type="submit" class="open">Apply Sort</button>
