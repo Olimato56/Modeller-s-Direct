@@ -43,3 +43,7 @@ p {
 .container {
     margin-bottom: -20px;
 }
+
+.helptext {
+    text-align: justify;
+}
