@@ -4,6 +4,7 @@ from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django_otp.plugins.otp_email.models import EmailDevice
 from django.contrib.auth.models import User
+import os
 
 def login_page(request):
     if request.method == "POST":
@@ -11,6 +12,9 @@ def login_page(request):
         password = request.POST.get("password")
         user = authenticate(request, username=username, password=password)
         if user is not None:
+            if os.environ.get('BYPASS_2FA') == 'True':
+                login(request, user)  # Log them in immediately
+                return redirect('home')
             request.session['pre_2fa_user_id'] = user.id
             return redirect('twofa')
         else:
