@@ -1,0 +1,14 @@
+{% if not exclude_search %}
+    <input type="hidden" name="q" value="{{ query|default:'' }}">
+{% endif %}
+
+{% if not exclude_sort %}
+    <input type="hidden" name="sort" value="{{ sort }}">
+{% endif %}
+
+{% if not exclude_filters %}
+    {% for tag in selected_tags %}
+        <input type="hidden" name="tags" value="{{ tag }}">
+    {% endfor %}
+
+{% endif %}

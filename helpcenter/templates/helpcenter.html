@@ -13,6 +13,13 @@
             <a href="{% url 'beginnerhelp' %}" class="open">Open Walkthrough</a>
         </div>
     </div>
+    <div class="container">
+        <a href="{% url 'userhelp' %}" class="helpnavlinks">User Submitted Tips</a>
+        <p class="helptext">Modelling tips posted by other modellers. Feel free to post your own and reply to other user's tips!</p>
+        <div class="helpfooter">
+            <a href="{% url 'userhelp' %}" class="open">Open  User Tips</a>
+        </div>
+    </div>
 </div>
 
 {% endblock %}

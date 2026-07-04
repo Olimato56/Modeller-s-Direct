@@ -34,7 +34,7 @@ def handle_text_submission(request, model_class, post_key='submit_tip', **kwargs
             return True
     return False
 
-def like_item(request, objid, objectDb, type):
+def like_item(request, objid, objectDb, item_type):
     if request.user.is_authenticated:
         object = get_object_or_404(objectDb, id=objid)
         if request.user in object.likes.all():
@@ -42,18 +42,18 @@ def like_item(request, objid, objectDb, type):
         else:
             object.likes.add(request.user)
             owner = getattr(object, 'poster', getattr(object, 'user', None))
-            likesNotification(object, owner, type)
+            likesNotification(object, owner, item_type)
             
     return HttpResponse(str(object.likes.count()))
 
-def likesNotification(item, creator, type):
+def likesNotification(item, creator, item_type):
     like_count = item.likes.count()
     if like_count == 10:
-        notification.objects.create(recipient=creator, message=f"Your {type} got 10 likes!", targetObject = item)
+        notification.objects.create(recipient=creator, message=f"Your {item_type} got 10 likes!", targetObject = item)
     elif like_count == 50:
-        notification.objects.create(recipient=creator, message=f'<i class="fa-regular fa-fire"></i> Your {type} got 50 likes!', targetObject = item)
+        notification.objects.create(recipient=creator, message=f'<i class="fa-regular fa-fire"></i> Your {item_type} got 50 likes!', targetObject = item)
     elif like_count == 100:
-        notification.objects.create(recipient=creator, message=f'<i class="fa-solid fa-fire"></i> Your {type} got 100 likes!', targetObject = item)
+        notification.objects.create(recipient=creator, message=f'<i class="fa-solid fa-fire"></i> Your {item_type} got 100 likes!', targetObject = item)
 
 def report(request, model, modelField, reason=None):
     if request.user.is_authenticated:
