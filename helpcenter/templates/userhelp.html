@@ -80,12 +80,12 @@
                                 <h7>{{ help.created_at|date:"Y-m-d  H:i" }}</h7>
                             </div>
                             <p>{{ help.poster }}</p>
+                            <p class="posttxt">{{ help.helptext }}</p>
                             <div class="image-gallery">
                                 {% if help.image %}
-                                    <img class="imgmodel" src="{{ img.image.url }}">
+                                    <img class="imgmodel" src="{{ help.image.url }}">
                                 {% endif %}
                             </div>
-                            <p class="posttxt">{{ help.helptext }}</p>
                             <div class="postspacing">
                                 <p><i class="fa-solid fa-eye"></i> <strong> {{ help.views }}</strong></p>
                                 <p><i class="fa-solid fa-comment"></i> <strong>{{ help.replies.count }}</strong></p>

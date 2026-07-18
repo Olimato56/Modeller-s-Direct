@@ -24,5 +24,5 @@ class TipSubmission(forms.ModelForm):
             if self.instance and self.instance.pk:
                 title_exists = title_exists.exclude(pk=self.instance.pk)
             if title_exists.exists():
-                raise forms.ValidationError(f"A tipt titled '{title_value}' already exists.")  
+                raise forms.ValidationError(f"A tip titled '{title_value}' already exists.")  
             return title_value

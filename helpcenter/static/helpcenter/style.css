@@ -47,3 +47,7 @@ p {
 .helptext {
     text-align: justify;
 }
+
+.userhelpimage {
+    margin-top: 10px;
+}

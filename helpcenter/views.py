@@ -155,16 +155,12 @@ def submit_help(request):
     if request.method == "POST":
         form = TipSubmission(request.POST, request.FILES)
         if form.is_valid():
-            uploaded_images = request.FILES.getlist('images_field')
-
-            if len(uploaded_images) > 5:
-                form.add_error(None, "You can only upload a maximum of 5 images.")
-                return render(request, 'submit_post.html', {'form': form})
+            uploaded_image = request.FILES.get('image_field')
             
             help = form.save(commit=False)
 
             help.poster = request.user
-            help.slug = slugify(help.posttitle)
+            help.slug = slugify(help.helptitle)
 
             help.save()
 
@@ -172,15 +168,16 @@ def submit_help(request):
             clean_tag_ids = [tag_id for tag_id in selected_tag_ids if tag_id.isdigit()]
             help.tags.set(clean_tag_ids)
 
-            if uploaded_images:
-                for image_file in uploaded_images:
-                    try:
-                        compressed_file = compress_image(image_file)
-                        help.image = compressed_file
-                    except Exception:
-                        pass
+            if uploaded_image:
+                try:
+                    compressed_file = compress_image(uploaded_image)
+                    help.image = compressed_file
+                except Exception:
+                    return 'error'
+                
+            help.save()
 
-            return redirect('/userhelp')
+            return redirect('/helpcenter/userhelp')
     else:
         form = TipSubmission()
 
