@@ -147,7 +147,7 @@ def userhelp_template(request, help_slug):
     return render(request, "userhelp-template.html", {'help': help, 'is_liked': is_liked, 'replies': replies, 'liked_helpreplies': liked_helpreplies})
 
 def replyNotification(help, replier):
-    truncated_text = help.helptext[:50] + "..." if len(help.helptitle) > 50 else help.helptitle
+    truncated_text = help.helptitle[:50] + "..." if len(help.helptitle) > 50 else help.helptitle
     notification.objects.create(recipient=help.poster, message=f"{replier} replied to your tip, '{truncated_text}'", targetObject = help)
 
 @login_required

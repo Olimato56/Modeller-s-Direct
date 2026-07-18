@@ -36,7 +36,9 @@
                 {% if notification.category.model == 'reply' %}
                     <a href="{% url 'post-template' post_slug=notification.targetObject.slug %}">View Post</a>
                 {% endif %}
-                
+                {% if notification.category.model == 'userhelp' %}
+                    <a href="{% url 'userhelp-template' help_slug=notification.targetObject.slug %}">View Tip</a>
+                {% endif %}
             {% endif %}
         </li>
         {% endfor %}

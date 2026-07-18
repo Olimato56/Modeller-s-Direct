@@ -146,5 +146,5 @@ def submit_post(request):
     return render(request, 'submit_post.html', {'form': form, 'tagged': all_tags})
 
 def replyNotification(post, replier):
-    truncated_text = post.posttext[:50] + "..." if len(post.posttitle) > 50 else post.posttitle
+    truncated_text = post.posttitle[:50] + "..." if len(post.posttitle) > 50 else post.posttitle
     notification.objects.create(recipient=post.poster, message=f"{replier} replied to your post, '{truncated_text}'", targetObject = post)
