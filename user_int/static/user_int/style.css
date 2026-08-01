@@ -194,6 +194,17 @@ body {
     margin-top: 50px;
 }
 
+@media (max-width: 992px) {
+    .container {
+        width: 100%;
+    }
+
+    .container-fluid {
+        padding-right: 0px !important;
+        padding-left: 0px !important;
+    }
+}
+
 .container .content-grid {
     gap: 1.5vw;
 }

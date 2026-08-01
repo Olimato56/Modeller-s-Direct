@@ -52,7 +52,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 80%;
+    width: 92%;
     max-width: 1800px;
     height: 80vh;
     max-height: 1800px;
@@ -83,6 +83,12 @@ body {
     font-weight: 400px;
     color: white;
     padding: 15%;
+}
+
+@media (max-width: 992px) {
+    .login-form {
+        padding: 8%;
+    }
 }
 
 .twofa {
