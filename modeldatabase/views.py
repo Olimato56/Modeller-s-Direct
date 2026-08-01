@@ -9,7 +9,7 @@ from notifications.models import notification
 from django.contrib import messages
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from user_int.views import handle_text_submission, report, compress_image
+from user_int.views import handle_text_submission, report, compress_image, delete_item
 
 
 def databasehome(request):
@@ -134,6 +134,16 @@ def car_template(request, model_slug):
             if message:
                 if handle_text_submission(request, TipIssue, 'submit_tip', model_kit=model, user=request.user, message=message): #note this is the default case for the key
                     return redirect('car-template', model_slug=model_slug)
+        if 'deletetip' in request.POST:
+            tip_id = request.POST.get('tip_id')
+            if tip_id:
+                delete_item(request, item=tip_id, model=TipIssue)
+                return redirect('car-template', model_slug=model_slug)
+        if 'deletebuild' in request.POST:
+            build_id = request.POST.get('build_id')
+            if build_id:
+                delete_item(request, item=build_id, model=CompletedModel)
+                return redirect('car-template', model_slug=model_slug)
             
         #process submission of build images
         elif 'upload_build' in request.POST:

@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from .submitpost import PostSubmission
 from django.utils.text import slugify
 from notifications.models import notification
+from user_int.views import delete_item
 
 
 
@@ -65,7 +66,6 @@ def forum(request):
     if request.user.is_authenticated:
         liked_posts = request.user.liked_posts.values_list('id', flat=True)
 
-
     context = {
         'posts': posts, 
         'url_params': url_params,
@@ -97,6 +97,14 @@ def post_template(request, post_slug):
                 if handle_text_submission(request, PostReplies, 'submit_reply', post=post, reply=message, poster=request.user):
                     replyNotification(post, request.user)
                     return redirect('post-template', post_slug=post_slug)
+        if 'delete' in request.POST:
+            delete_item(request, Post, post.id)
+            return redirect('forum') 
+        if 'deletereply' in request.POST:
+            reply_id = request.POST.get('reply_id')
+            if reply_id:
+                delete_item(request, item=reply_id, model=PostReplies)
+                return redirect('post-template', post_slug=post_slug)
 
     is_liked = False
     if request.user.is_authenticated:

@@ -11,8 +11,9 @@ from django.http import HttpResponse
 from io import BytesIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from PIL import Image, ImageOps
-import sys, os
+import os
 from notifications.models import notification
+from django.http import HttpResponseRedirect
 
 
 def home(request):
@@ -93,3 +94,10 @@ def compress_image(file):
         None
     )
     return compressed_file
+
+def delete_item(request, model, item):
+    itemToDelete = get_object_or_404(model, pk=item)
+    if request.method == 'POST':
+        itemToDelete.delete()
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
+    return redirect('/')

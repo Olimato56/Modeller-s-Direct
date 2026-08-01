@@ -44,8 +44,14 @@
             {% for tip in tips %}
                 <div class="tip">
                     <div class="tip-header">
-                        <span class="tip-user">{{ tip.user.username }}</span>
-                        <span class="tip-date">{{ tip.created_at|date:"d M Y" }}</span>
+                        <span class="tip-user">{{ tip.user.username }}   &nbsp | &nbsp {{ tip.created_at|date:"d/m/y h:i a" }}</span>
+                        {% if request.user == tip.user %}
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="tip_id" value="{{ tip.id }}">
+                                <button type="submit" name="deletetip" class="deletebutton"><i class="fa-solid fa-trash"></i></button>
+                            </form>
+                        {% endif %}
                     </div>
                     <p class="tip-message">{{ tip.message }}</p>
                     <div class="tip-footer">
@@ -79,26 +85,32 @@
 
             {% for build in builds %}
             <div class="tip">
-                    <div class="tip-header">
-                        <span class="tip-user">{{ build.user.username }}</span>
-                        <span class="tip-date">{{ build.created_at|date:"d M Y" }}</span>
-                    </div>
-
-                    <div class="image-gallery">
-                        {%for img in build.images.all %}
-                            <img class="imgmodel" src="{{ img.image.url }}">
-                        {% endfor %}
-                    </div>
-                    <p class="caption">{{ build.caption }}</p>
-
-                    <div class="tip-footer">
-                        <button hx-post="{% url 'like-build' objid=build.id %}" hx-target="#count-{{ build.id }}" hx-swap="innerHTML" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-on::after-request="this.classList.toggle('liked')" class="like-button {% if build.id in liked_builds %}liked{% endif %}">                          
-                            <i class="fa-solid fa-thumbs-up"></i> 
-                            <span id="count-{{ build.id }}">{{ build.likes.count }}</span>
-                        </button>
-                        </a>
-                    </div>
+                <div class="tip-header">
+                    <span class="tip-user">{{ build.user.username }}  &nbsp | &nbsp {{ build.created_at|date:"d/m/y h:i a" }}</span>
+                    {% if request.user == build.user %}
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="build_id" value="{{ build.id }}">
+                            <button type="submit" name="deletebuild" class="deletebutton"><i class="fa-solid fa-trash"></i></button>
+                        </form>
+                    {% endif %}
                 </div>
+
+                <div class="image-gallery">
+                    {%for img in build.images.all %}
+                        <img class="imgmodel" src="{{ img.image.url }}">
+                    {% endfor %}
+                </div>
+                <p class="caption">{{ build.caption }}</p>
+
+                <div class="tip-footer">
+                    <button hx-post="{% url 'like-build' objid=build.id %}" hx-target="#count-{{ build.id }}" hx-swap="innerHTML" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-on::after-request="this.classList.toggle('liked')" class="like-button {% if build.id in liked_builds %}liked{% endif %}">                          
+                        <i class="fa-solid fa-thumbs-up"></i> 
+                        <span id="count-{{ build.id }}">{{ build.likes.count }}</span>
+                    </button>
+                    </a>
+                </div>
+            </div>
             {% endfor %}
 
             <hr>

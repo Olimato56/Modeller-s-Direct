@@ -77,7 +77,7 @@
                         <div class="info">
                             <div class="postspacing">
                                 <a href="{% url 'post-template' post_slug=post.slug %}">{{ post.posttitle }}</a>
-                                <h7>{{ post.created_at|date:"Y-m-d  H:i" }}</h7>
+                                <h7>{{ post.created_at|date:"d/m/y h:i a" }}</h7>
                             </div>
                             <p>{{ post.poster }}</p>
                             <div class="image-gallery">

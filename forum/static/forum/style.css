@@ -198,6 +198,10 @@ h2, h5 {
     font-size: 20px;
 }
 
+.post {
+    text-align: justify;
+}
+
 .images {
     display: flex;
     flex-direction: row;
@@ -331,4 +335,11 @@ h10 {
 
 h7 {
     text-align: right;
+}
+
+.deletebutton {
+    font-size: 20px !important;
+    background-color: transparent;
+    padding: 5px 10px;
+    margin-right: -3px;
 }

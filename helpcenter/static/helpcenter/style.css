@@ -51,3 +51,10 @@ p {
 .userhelpimage {
     margin-top: 10px;
 }
+
+.deletebutton {
+    font-size: 20px !important;
+    background-color: transparent;
+    padding: 5px 10px;
+    margin-right: -3px;
+}

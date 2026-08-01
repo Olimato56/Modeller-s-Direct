@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from .models import BeginnerTip, UserTipProgress, UserHelp, Tags, HelpReplies
 from django.http import HttpResponse
-from user_int.views import like_item, handle_text_submission, report, compress_image
+from user_int.views import like_item, handle_text_submission, report, compress_image, delete_item
 from django.db.models import Q, Count
 from notifications.models import notification
 from .submittip import TipSubmission
@@ -136,6 +136,14 @@ def userhelp_template(request, help_slug):
                 if handle_text_submission(request, HelpReplies, 'submit_reply', userhelp=help, reply=message, poster=request.user):
                     replyNotification(help, request.user)
                     return redirect('userhelp-template', help_slug=help_slug)
+        if 'delete' in request.POST:
+            delete_item(request, UserHelp, help.id)
+            return redirect('userhelp')
+        if 'deletereply' in request.POST:
+            reply_id = request.POST.get('reply_id')
+            if reply_id:
+                delete_item(request, item=reply_id, model=HelpReplies)
+                return redirect('userhelp-template', help_slug=help_slug)
 
     is_liked = False
     if request.user.is_authenticated:

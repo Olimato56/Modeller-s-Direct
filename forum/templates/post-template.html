@@ -10,10 +10,17 @@
 <div class="container">
     <div class="postspacing">
         <h1>{{ post.posttitle }}</h1>
-        <h5>{{ post.created_at|date:"Y-m-d  H:i" }}</h5>
     </div>
 
-    <h6> {{post.poster }} </h6>
+    <div class="postspacing">
+        <h6> {{post.poster }} &nbsp | &nbsp {{ post.created_at|date:"d/m/y h:i a" }}</h6>
+        {% if request.user == post.poster %}
+            <form method="post">
+                {% csrf_token %}
+                <button type="submit" name="delete" class="deletebutton"><i class="fa-solid fa-trash"></i></button>
+            </form>
+        {% endif %}
+    </div>
 
     <div class="tags">
         {% for tag in post.tags.all %}
@@ -51,8 +58,14 @@
                 <div class="card-body">
                     <div class="info">
                     <div class="postspacing">
-                        <h6> {{reply.poster }} </h6>
-                        <h5>{{ reply.created_at|date:"Y-m-d  H:i" }}</h5>
+                        <h6> {{reply.poster }} &nbsp | &nbsp {{ reply.created_at|date:"d/m/y h:i a" }}</h6>
+                        {% if request.user == reply.poster %}
+                            <form method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="reply_id" value="{{ reply.id }}">
+                                <button type="submit" name="deletereply" class="deletebutton" style="scale: 75%;"><i class="fa-solid fa-trash"></i></button>
+                            </form>
+                        {% endif %}
                     </div>
 
                     <p>{{ reply.reply }}</p>
