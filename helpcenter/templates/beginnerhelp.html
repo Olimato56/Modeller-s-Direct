@@ -13,7 +13,7 @@
                 <h3>{{ tip.title }}</h3>
                 <p class="helptext">{{ tip.content|linebreaks }}</p>
                 {% if tip.image %}
-                    <img src="{{ tip.image.url }}" alt="{{ tip.title }}">
+                    <img src="{{ tip.image.url }}" alt="{{ tip.title }}" style="scale: 200%;"/>
                 {% endif %}
             </div> 
             <div class="helpfooter">
