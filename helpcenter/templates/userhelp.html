@@ -89,7 +89,7 @@
                             <div class="postspacing">
                                 <p><i class="fa-solid fa-eye"></i> <strong> {{ help.views }}</strong></p>
                                 <p><i class="fa-solid fa-comment"></i> <strong>{{ help.replies.count }}</strong></p>
-                                <button hx-post="{% url 'like_help' objid=help.id %}" hx-target="#count-{{ help.id }}" hx-swap="innerHTML" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-on::after-request="this.classList.toggle('liked')" class="like-button {% if help.id in liked_helps %}liked{% endif %}">                          
+                                <button hx-post="{% url 'like_help' objid=help.id %}" hx-target="#count-{{ help.id }}" hx-swap="innerHTML" hx-headers='{"X-CSRFToken": "{{ csrf_token }}"}' hx-on::after-request="this.classList.toggle('liked')" class="like-button {% if help.id in liked_help %}liked{% endif %}">                          
                                     <i class="fa-solid fa-thumbs-up"></i> 
                                     <span id="count-{{ help.id }}"> {{ help.likes.count }}</span>
                                 </button>

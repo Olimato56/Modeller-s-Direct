@@ -22,7 +22,7 @@ def helpcenter(request):
 
 
 def beginnerhelp(request):
-    all_beginner_tips = BeginnerTip.objects.all()
+    all_beginner_tips = BeginnerTip.objects.all().order_by('id')
     completed_tip_ids = []
     
     if request.user.is_authenticated:
